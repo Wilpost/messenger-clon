@@ -1,42 +1,42 @@
 import { DesktopSidebar } from '@/components/sidebar/DesktopSidebar'
 import { MobileSidebar } from '@/components/sidebar/mobile/MobileSidebar'
 import { EmptyConversation } from '@/components/EmptyItemConversation'
-import { getUsers } from '@/app/actions/getUsers'
+import { getUsers } from '@/actions/getUsers'
 
 export default async function Layout({
   children
 }: {
   children: React.ReactNode
 }) {
-  const users = getUsers()
-
-  console.log(users)
+  const users = await getUsers()
 
   return (
-    <>
-      <section
-        className={`
+    <section
+      className={`
           w-full
+          p-2
           flex 
           h-screen
-          bg-white
+          gap-2
         `}>
-        <DesktopSidebar />
-        <MobileSidebar />
+      <DesktopSidebar />
+      <MobileSidebar />
 
-        <aside
-          className='
+      <aside
+        className='
         flex
+        rounded-xl
+        w-full
+        bg-primary
         flex-col
         items-center
         h-full
-        min-w-[300px]
+        lg:max-w-[300px]
       '>
-          {children}
-        </aside>
+        {children}
+      </aside>
 
-        <EmptyConversation />
-      </section>
-    </>
+      <EmptyConversation />
+    </section>
   )
 }

@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { FaGoogle } from 'react-icons/fa'
 import { IoLogoGithub } from 'react-icons/io'
-import { Input } from '../../../components/Inputs/Input'
+import { Input } from '../../../components/Inputs/AuthInput'
 import { Button } from '../../../components/buttons/Button'
 import { signIn } from 'next-auth/react'
 import { useDataForm } from '@/hooks/useForm'
@@ -34,7 +34,7 @@ export function AuthForm() {
         <Image
           width={60}
           height={60}
-          src='/logo.png'
+          src='/Hero_Logo.svg'
           alt='Hero logo wiht authentication'
         />
       </figure>
@@ -47,10 +47,11 @@ export function AuthForm() {
         onSubmit={handleSubmit(data => onSubmit(isLogin, data))}
         className={`
           w-[460px] rounded-md p-10 flex flex-col gap-4
-          bg-white
+          bg-primary
         `}>
         {isLogin === 'REGISTER' && (
           <Input
+            placeholder='username'
             register={register}
             id='username'
             type='username'
@@ -61,6 +62,7 @@ export function AuthForm() {
         )}
 
         <Input
+          placeholder='example@example.com'
           register={register}
           id='email'
           type='email'
@@ -70,6 +72,7 @@ export function AuthForm() {
         />
 
         <Input
+          placeholder='******'
           register={register}
           id='password'
           type='password'
@@ -98,8 +101,8 @@ export function AuthForm() {
           </Button>
         )}
 
-        <div className='w-full relative mt-2 h-[1px] bg-zinc-300'>
-          <span className='absolute -top-[10px] px-2 text-sm left-[35%] bg-white text-zinc-500'>
+        <div className='w-full mt-6 relative h-[1px] bg-zinc-500'>
+          <span className='absolute -top-[10px] px-2 text-sm left-[35%] bg-primary text-zinc-500'>
             Or continue with
           </span>
         </div>
@@ -110,7 +113,7 @@ export function AuthForm() {
             disable={isLoading}
             loading={isLoading}
             oauth={true}>
-            <IoLogoGithub color='#666' size={18} />
+            <IoLogoGithub className='text-zinc-300' size={18} />
           </Button>
 
           <Button
@@ -118,19 +121,19 @@ export function AuthForm() {
             disable={isLoading}
             loading={isLoading}
             oauth={true}>
-            <FaGoogle color='#666' size={18} />
+            <FaGoogle className='text-zinc-300' size={18} />
           </Button>
         </div>
 
         <div className='w-full flex items-center justify-center gap-2'>
-          <span className='text-zinc-500 text-sm'>
+          <span className='text-zinc-400 text-sm'>
             {isLogin === 'LOGIN'
               ? 'New to Messenger?'
               : 'Already have an account?'}
           </span>
 
           <button type='button' onClick={() => toggleVariant()}>
-            <span className='text-sm text-zinc-500 underline'>
+            <span className='text-sm text-zinc-300 underline'>
               {isLogin === 'LOGIN' ? 'Create an account' : 'Login'}
             </span>
           </button>

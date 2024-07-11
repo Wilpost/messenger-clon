@@ -22,7 +22,7 @@ export function useRoutes() {
       },
       {
         label: 'Converstation',
-        href: '/converstation',
+        href: '/conversations',
         icon: TbMessages,
         active: pathname === '/conversations' || !!converstationId
       },

@@ -9,7 +9,8 @@ export function MobileSidebar() {
     <nav
       className='
         lg:hidden
-
+        border-t
+        border-gray-200
         w-full
         h-16
         flex

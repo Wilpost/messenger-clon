@@ -32,7 +32,7 @@ export function Button({
         `
         w-full rounded-md text-md text-white font-semibold flex items-center justify-center py-2
       `,
-        oauth && 'border-[1px] border-zinc-300 bg-white',
+        oauth && 'border-[1px] border-secondary bg-primary',
         disable && 'opacity-50',
         loading && 'opacity-50',
         error && 'bg-red-600 hover:bg-red-500',

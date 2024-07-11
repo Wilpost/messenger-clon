@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
-import { AuthForm } from './Components/TemplateAuthForm'
+import { AuthForm } from './(site)/Components/TemplateAuthForm'
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 

@@ -59,7 +59,8 @@ model Message {
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
-  convertations Conversation[]
+  conversationId String
+  convertations Conversation @relation(fields: [conversationId], references: [id])
 
   senderId String
   sender User @relation(fields: [senderId], references: [id])

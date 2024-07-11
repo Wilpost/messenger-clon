@@ -1,44 +1,46 @@
 import clsx from 'clsx'
-import { UseFormRegister, FieldValues } from 'react-hook-form'
+import Image from 'next/image'
 
 interface IProps {
-  disable: boolean
-  error?: boolean
-  label: string
-  name: string
-  id: string
-  type: string
-  register: UseFormRegister<FieldValues>
+  disable?: boolean
+  label?: string
+  name?: string
+  icon?: boolean
+  id?: string
+  type?: string
+  placeholder?: string
 }
 
-export function Input({
-  disable,
-  error,
-  label,
-  name,
-  id,
-  type,
-  register
-}: IProps) {
+export function AuthInput({ disable, name, placeholder, id, type }: IProps) {
   return (
     <>
       <label
         className={clsx(`
-          text-sm font-medium
+          text-sm
+          font-normal
+          flex
+          w-full
+          items-center
+          bg-secondary
+          rounded-3xl
+          pl-4
         `)}
         htmlFor={id}>
-        {label}
+        <Image
+          width={20}
+          height={20}
+          src='/search_icon.svg'
+          alt='Icono de busqueda'
+        />
 
         <input
-          {...register(name)}
           className={clsx(
             `
-          border-[1px] w-full border-zinc-300 rounded-md p-2 bg-white 
-          focus:outline-sky-500 text-normal
+          w-full rounded-3xl p-1 placeholder:text-gray-400-400 placeholder:font-light bg-secondary outline-none text-normal text-textSecondary mt-1
           `,
-            disable && 'opacity-50 cursor-default select-none',
-            error && 'border-red-500 focus:outline-red-500'
+            disable && 'opacity-50 cursor-default select-none'
           )}
+          placeholder={placeholder}
           type={type}
           name={name}
           id={id}

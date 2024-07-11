@@ -15,24 +15,25 @@ export const DesktopSidebar = () => {
         lg:bottom-0 
         lg:flex
         lg:w-full
-        lg:max-w-24
+        lg:max-w-12
         lg:h-full
-        lg:border 
         lg:py-3
-        border-slate-300 
         lg:flex-col 
         lg:justify-between'>
       <nav
         className='
         h-full
+        w-full
       '>
         <ul
           className={`
           items-center
           flex
           flex-col
+          w-full
+          h-full
+          justify-start
           overflow-y-auto
-          scrollbar-thin
         `}>
           {routes.map(item => {
             return (

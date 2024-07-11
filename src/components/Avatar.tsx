@@ -1,9 +1,7 @@
-import { getCurrentUser } from '@/app/actions/getCurrentUser'
+import { User } from '@prisma/client'
 import Image from 'next/image'
 
-export const Avatar = async () => {
-  const user = await getCurrentUser()
-
+export const Avatar = async ({ user }: { user?: User }) => {
   return (
     <div
       className='
@@ -15,7 +13,7 @@ export const Avatar = async () => {
       '>
       <div
         className='
-          w-16
+          w-10
           grid
           place-content-center
         '>
@@ -28,7 +26,7 @@ export const Avatar = async () => {
         />
       </div>
 
-      <span className='w-[14px] h-[14px] bg-green-500 absolute rounded-full ring-2 ring-white top-[3px] right-[17px]' />
+      <span className='w-[11px] h-[11px] bg-green-500 absolute rounded-full ring-2 ring-primary top-0 right-1' />
     </div>
   )
 }

@@ -24,25 +24,28 @@ export const DesktopSidebarItem: React.FC<DesktopSidebarItemProps> = ({
   }
 
   return (
-    <Link href={href}>
+    <Link
+      className={clsx(
+        'w-full p-2 rounded-md h-full max-h-12 py-1 grid place-content-center',
+        active && 'bg-secondary',
+        !active && 'hover:bg-secondary hover:bg-opacity-70'
+      )}
+      href={href}>
       <div
         className={clsx(
           `
-            h-14
             w-full
-            hover:bg-gray-100
-            hover:text-black
+            text-stone-400
+            grid place-content-center
+            hober:bg-opacity-75
             cursor-pointer
-            grid
-            place-content-center
-            `,
-          active && 'text-black bg-gray-100'
+            `
         )}>
         <li
           onClick={() => handleClick()}
           className={clsx('flex items-center justify-center')}>
           <span className='sr-only'>{label}</span>
-          <Icon className='w-6 h-6' />
+          <Icon className={clsx('w-6 h-6', active && 'text-white')} />
         </li>
       </div>
     </Link>
