@@ -1,8 +1,15 @@
+'use client'
+
+import { useConversation } from '@/hooks/useConversation'
+
 export function EmptyConversation() {
+  const { isOpen } = useConversation()
+
   return (
     <div
       className={`
           hidden
+          ${isOpen ? 'hidden' : 'block'}
           w-full
           h-full
           md:flex

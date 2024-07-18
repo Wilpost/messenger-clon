@@ -20,6 +20,8 @@ model User {
     hashedPassword String? @db.VarChar(255)
     image String?
 
+    createdAt DateTime @default(now())
+
     conversations Conversation[] @relation("users")
     seenMessages UserSeenMessage[]
 
@@ -30,7 +32,7 @@ model User {
 model Account {
   id String @id
   provider String?
-  provider_AccountId String?
+  provider_providerAccountId String?
   refresh_token String?
   type_Provider String?
   expires_at Int?
@@ -44,7 +46,7 @@ model Account {
   userId String?
   user User? @relation(fields: [userId], references: [id])
 
-  @@unique([provider, provider_AccountId])
+  @@unique([provider, provider_providerAccountId])
 }
 
 model Message {
@@ -53,7 +55,6 @@ model Message {
   image String?
 
   userId String
-
   seen UserSeenMessage[]
 
   createdAt DateTime @default(now())

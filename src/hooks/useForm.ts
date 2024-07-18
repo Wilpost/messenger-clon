@@ -9,6 +9,25 @@ export function useDataForm(setIsLoading: Dispatch<SetStateAction<boolean>>) {
   const router = useRouter()
   const { handleSubmit, register } = useForm()
 
+  const socialAction = async (action: string) => {
+    setIsLoading(true)
+
+    signIn(action, {
+      redirect: false
+    })
+      .then(res => {
+        if (res?.error) {
+          toast.error(res.error)
+        }
+
+        if (res?.ok) {
+          router.push('/conversations')
+          toast.success('User logged In!')
+        }
+      })
+      .finally(() => setIsLoading(false))
+  }
+
   const onSubmit = async (variant: string, values: FieldValues) => {
     if (variant === 'LOGIN') {
       const { email, password } = values
@@ -59,5 +78,5 @@ export function useDataForm(setIsLoading: Dispatch<SetStateAction<boolean>>) {
     }
   }
 
-  return { onSubmit, register, handleSubmit }
+  return { onSubmit, register, handleSubmit, socialAction }
 }

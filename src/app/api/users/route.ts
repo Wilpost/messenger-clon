@@ -1,14 +1,12 @@
 import { prisma } from '@/lib/prisma_db'
 import { NextResponse } from 'next/server'
 
-export async function POST(req: Request) {
-  const { id } = await req.json()
+export async function GET(req: Request) {
+  const users = await prisma.user.findMany()
 
-  const userFound = await prisma.user.findUnique({
-    where: {
-      id
-    }
-  })
+  if (!users) {
+    return NextResponse.json({ status: 404, message: 'Not Found' })
+  }
 
-  return NextResponse.json({ status: 200, data: userFound })
+  return NextResponse.json({ status: 200, data: users })
 }

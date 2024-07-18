@@ -1,6 +1,8 @@
 'use client'
 
-import { useParams } from 'next/navigation'
+import axios from '@/lib/axios'
+import { User } from '@prisma/client'
+import { useParams, useRouter } from 'next/navigation'
 import { useMemo } from 'react'
 
 export function useConversation() {
@@ -23,4 +25,34 @@ export function useConversation() {
     }),
     [converstationId, isOpen]
   )
+}
+
+export async function useConversationLogic() {
+  const router = useRouter()
+
+  const handleClick = async (email: string | null, name: string | null) => {
+    try {
+      const { data: userData } = await axios.get('/users')
+      const { data }: { data: User[] } = JSON.parse(userData)
+      const user = data.find(user => user.email === email)
+
+      const { data: conversationData } = await axios.post(
+        '/conversation',
+        JSON.stringify({
+          name,
+          isGroup: false,
+          members: [],
+          user
+        })
+      )
+
+      const { id } = JSON.parse(conversationData)
+
+      router.push(`/conversations/${id}`)
+    } catch (error: any) {
+      console.log(error)
+    }
+  }
+
+  return { handleClick }
 }

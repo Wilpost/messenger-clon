@@ -54,7 +54,7 @@ export const DesktopSidebar = () => {
         <ul
           role='list'
           className='relative w-full flex justify-center items-center'>
-          <Avatar />
+          <Avatar isActive={true} />
         </ul>
       </nav>
     </div>

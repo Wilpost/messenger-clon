@@ -1,16 +1,16 @@
 import { prisma } from '@/lib/prisma_db'
-import { getUserSession } from './getSession'
 
-export function getUsers() {
-  const users = getUserSession().then(async user => {
-    return await prisma.user.findMany({
-      where: {
-        NOT: {
-          email: user?.email
-        }
+export async function getUsers(email: string | null | undefined) {
+  const data = await prisma.user.findMany({
+    orderBy: {
+      createdAt: 'desc'
+    },
+    where: {
+      NOT: {
+        email
       }
-    })
+    }
   })
 
-  return users
+  return data
 }

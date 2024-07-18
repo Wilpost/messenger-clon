@@ -1,3 +1,5 @@
+'use client'
+
 import clsx from 'clsx'
 import Image from 'next/image'
 
@@ -11,7 +13,7 @@ interface IProps {
   placeholder?: string
 }
 
-export function AuthInput({ disable, name, placeholder, id, type }: IProps) {
+export function Input({ disable, name, placeholder, id, type }: IProps) {
   return (
     <>
       <label
@@ -36,7 +38,7 @@ export function AuthInput({ disable, name, placeholder, id, type }: IProps) {
         <input
           className={clsx(
             `
-          w-full rounded-3xl p-1 placeholder:text-gray-400-400 placeholder:font-light bg-secondary outline-none text-normal text-textSecondary mt-1
+          w-full rounded-3xl p-[6px] placeholder:text-zinc-400-400 placeholder:font-light bg-secondary outline-none text-normal text-textSecondary mt-1
           `,
             disable && 'opacity-50 cursor-default select-none'
           )}

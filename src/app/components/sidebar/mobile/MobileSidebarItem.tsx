@@ -18,16 +18,17 @@ export const MobileSidebarItem: React.FC<ISidebarItemProps> = ({
       onClick={onClick}
       className={clsx(
         `
-        w-full
-        h-full
-        text-gray-700
-        hover:bg-gray-200
-        hover:text-gray-800
-        cursor-pointer
-        grid
-        place-content-center
+          w-full
+          h-full
+          text-zinc-400
+          hover:bg-secondary 
+          hover:text-textSecondary
+          hover:bg-opacity-70
+          cursor-pointer
+          grid
+          place-content-center
         `,
-        active && 'border-gray-500 border-t-2 text-gray-700 bg-gray-200'
+        active && 'text-textSecondary bg-secondary bg-opacity-75'
       )}>
       <Icon className='w-6 h-6' />
       <span className='sr-only'>{label}</span>

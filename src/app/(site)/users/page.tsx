@@ -1,9 +1,6 @@
-import { getUsers } from '@/actions/getUsers'
-import UserBox from '@/components/UserBox'
+import { UsersList } from '@/app/components/UsersList'
 
-export default async function UsersPage() {
-  const users = await getUsers()
-
+export default function UsersPage() {
   return (
     <div
       className='
@@ -34,16 +31,7 @@ export default async function UsersPage() {
           flex
           flex-col
         '>
-        {users.map(user => {
-          return (
-            <UserBox
-              image={user.image}
-              name={user.name}
-              key={user.id}
-              id={user.id}
-            />
-          )
-        })}
+        <UsersList />
       </section>
     </div>
   )

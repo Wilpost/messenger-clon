@@ -1,21 +1,32 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaGoogle } from 'react-icons/fa'
 import { IoLogoGithub } from 'react-icons/io'
-import { Input } from '../../../components/Inputs/AuthInput'
-import { Button } from '../../../components/buttons/Button'
-import { signIn } from 'next-auth/react'
+import { AuthInput } from '../../components/Inputs/AuthInput'
+import { Button } from '../../components/buttons/Button'
+import { useSession } from 'next-auth/react'
 import { useDataForm } from '@/hooks/useForm'
+import { useRouter } from 'next/navigation'
 
 type Variant = 'LOGIN' | 'REGISTER'
 
 export function AuthForm() {
+  const router = useRouter()
+  const { data: session } = useSession()
+
   const [isLoading, setIsLoading] = useState(false)
   const [isLogin, setIsLogin] = useState<Variant>('LOGIN')
 
-  const { onSubmit, register, handleSubmit } = useDataForm(setIsLoading)
+  const { onSubmit, register, handleSubmit, socialAction } =
+    useDataForm(setIsLoading)
+
+  useEffect(() => {
+    if (session?.user) {
+      router.push('/conversations')
+    }
+  }, [router, session?.user])
 
   const toggleVariant = () => {
     if (isLogin === 'LOGIN') {
@@ -50,7 +61,7 @@ export function AuthForm() {
           bg-primary
         `}>
         {isLogin === 'REGISTER' && (
-          <Input
+          <AuthInput
             placeholder='username'
             register={register}
             id='username'
@@ -61,7 +72,7 @@ export function AuthForm() {
           />
         )}
 
-        <Input
+        <AuthInput
           placeholder='example@example.com'
           register={register}
           id='email'
@@ -71,7 +82,7 @@ export function AuthForm() {
           disable={isLoading}
         />
 
-        <Input
+        <AuthInput
           placeholder='******'
           register={register}
           id='password'
@@ -109,7 +120,10 @@ export function AuthForm() {
 
         <div className='w-full flex gap-2 items-center'>
           <Button
-            onClick={() => signIn('github')}
+            onClick={() => {
+              socialAction('github')
+              router.push('/conversations')
+            }}
             disable={isLoading}
             loading={isLoading}
             oauth={true}>
@@ -117,7 +131,7 @@ export function AuthForm() {
           </Button>
 
           <Button
-            onClick={() => signIn('google')}
+            onClick={() => socialAction('google')}
             disable={isLoading}
             loading={isLoading}
             oauth={true}>

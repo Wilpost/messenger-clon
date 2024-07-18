@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import './globals.css'
-import { AuthProvider } from '@/components/AuthProvider'
+import { AuthProvider } from '@/app/components/AuthProvider'
 import { Toaster } from 'sonner'
 import { UserSessionProvider } from '@/context/UserSessionProvider'
 
@@ -23,12 +23,12 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={roboto.className}>
-        <UserSessionProvider>
-          <AuthProvider>
+        <AuthProvider>
+          <UserSessionProvider>
             <Toaster position='top-center' richColors />
             {children}
-          </AuthProvider>
-        </UserSessionProvider>
+          </UserSessionProvider>
+        </AuthProvider>
       </body>
     </html>
   )
