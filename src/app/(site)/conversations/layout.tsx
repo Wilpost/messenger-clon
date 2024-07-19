@@ -55,6 +55,8 @@ export default async function Layout({
           shadow-2xl
           w-full
           h-full
+          flex
+          flex-col
           bg-primary
           rounded-md
         '>

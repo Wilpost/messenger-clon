@@ -18,6 +18,7 @@ model User {
     email String? @unique @db.VarChar(255)
     name String? @db.VarChar(255)
     hashedPassword String? @db.VarChar(255)
+    email_verified Boolean?
     image String?
 
     createdAt DateTime @default(now())
@@ -30,13 +31,17 @@ model User {
 }
 
 model Account {
-  id String @id
+  id Int @id @default(autoincrement())
   provider String?
-  provider_providerAccountId String?
-  refresh_token String?
-  type_Provider String?
+  type String?
+  providerAccountId String?
+  access_token String? @db.Text
   expires_at Int?
+  scope String?
   token_type String?
+  refresh_token String? @db.Text
+  type_Provider String?
+  id_token String? @db.Text
 
   session_state String?
 
@@ -46,7 +51,7 @@ model Account {
   userId String?
   user User? @relation(fields: [userId], references: [id])
 
-  @@unique([provider, provider_providerAccountId])
+  @@unique([provider, providerAccountId])
 }
 
 model Message {

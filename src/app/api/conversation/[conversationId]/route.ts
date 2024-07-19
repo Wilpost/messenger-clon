@@ -1,13 +1,13 @@
 import { prisma } from '@/lib/prisma_db'
 import { NextResponse } from 'next/server'
 
-export function GET(
+export async function GET(
   req: Request,
   { params }: { params: { conversationId: string } }
 ) {
   const conversationId = params.conversationId
 
-  const userFound = prisma.conversation.findUnique({
+  const conversationFound = await prisma.conversation.findUnique({
     where: {
       id: conversationId
     },
@@ -17,5 +17,5 @@ export function GET(
     }
   })
 
-  return NextResponse.json({ data: { ...userFound } })
+  return NextResponse.json({ data: conversationFound })
 }

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Avatar } from './Avatar'
 import { FaPhone } from 'react-icons/fa6'
 import { PiVideoCameraFill } from 'react-icons/pi'

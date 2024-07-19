@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Avatar } from './Avatar'
 import { getUserConversations } from '@/actions/getConversations'
 
@@ -9,48 +10,52 @@ export const UserConversationsList = async () => {
       <section className='w-full h-full relative p-2 gap-2 flex flex-col'>
         {conversationList?.map(conversation => {
           return (
-            <div
-              key={conversation.id}
-              className='
+            <Link
+              href={`/conversations/${conversation.id}`}
+              key={conversation.id}>
+              <div
+                className='
                 w-full
                 cursor-pointer
                 hover:bg-secondary
                 hover:bg-opacity-70
                 flex
                 items-center
+                rounded-md
                 p-2
                 gap-2
               '>
-              <figure>
-                <Avatar src={conversation.image} />
-              </figure>
+                <figure>
+                  <Avatar src={conversation.image} />
+                </figure>
 
-              <div
-                className='
+                <div
+                  className='
                   flex
                   flex-col
                   w-full
                 '>
-                <span
-                  className='
+                  <span
+                    className='
                   text-md
                   font-medium
                   text-textSecondary
                 '>
-                  {conversation.name}
-                </span>
+                    {conversation.name}
+                  </span>
 
-                <p
-                  className='
+                  <p
+                    className='
                     text-sm
                     font-light
                     text-zinc-400
                   '>
-                  You are now connected...
-                  {/* {conversation.createdAt.toString()} */}
-                </p>
+                    You are now connected...
+                    {/* {conversation.createdAt.toString()} */}
+                  </p>
+                </div>
               </div>
-            </div>
+            </Link>
           )
         })}
       </section>

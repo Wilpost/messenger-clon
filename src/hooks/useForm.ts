@@ -25,6 +25,9 @@ export function useDataForm(setIsLoading: Dispatch<SetStateAction<boolean>>) {
           toast.success('User logged In!')
         }
       })
+      .catch(err => {
+        console.log(err)
+      })
       .finally(() => setIsLoading(false))
   }
 

@@ -1,7 +1,7 @@
 import { User } from '@prisma/client'
 import Image from 'next/image'
 
-export const Avatar = async ({
+export const Avatar = ({
   user,
   src,
   medium = false,

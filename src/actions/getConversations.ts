@@ -1,17 +1,17 @@
 import { prisma } from '@/lib/prisma_db'
 
 export async function getConversation(id: string) {
-  if (!id) {
-    return null
-  }
-
   try {
+    if (!id) {
+      return null
+    }
+
     const conversationFound = await prisma.conversation.findUnique({
       where: {
         id
       },
       include: {
-        messages: true
+        users: true
       }
     })
 
