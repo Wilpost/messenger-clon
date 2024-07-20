@@ -56,6 +56,7 @@ export function useDataForm(setIsLoading: Dispatch<SetStateAction<boolean>>) {
 
     if (variant === 'REGISTER') {
       const { email, password, username } = values
+      setIsLoading(true)
 
       await axios
         .post(
@@ -66,7 +67,7 @@ export function useDataForm(setIsLoading: Dispatch<SetStateAction<boolean>>) {
             username
           })
         )
-        .then(res => {
+        .then(async res => {
           if (res.status !== 200) {
             toast.error('Something went wrong!')
             return
@@ -74,7 +75,7 @@ export function useDataForm(setIsLoading: Dispatch<SetStateAction<boolean>>) {
           const { email, password } = JSON.parse(res.data)
 
           toast.success('User register succesfully')
-          signIn('credentials', { email, password })
+          await signIn('credentials', { email, password })
           router.push('/conversations')
         })
         .finally(() => setIsLoading(false))

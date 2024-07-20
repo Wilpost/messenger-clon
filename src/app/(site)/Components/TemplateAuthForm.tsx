@@ -9,6 +9,7 @@ import { Button } from '../../components/buttons/Button'
 import { useSession } from 'next-auth/react'
 import { useDataForm } from '@/hooks/useForm'
 import { useRouter } from 'next/navigation'
+import CircularIndeterminate from '@/app/components/loaders/CircularIndeterminate'
 
 type Variant = 'LOGIN' | 'REGISTER'
 
@@ -98,7 +99,7 @@ export function AuthForm() {
             credentials={true}
             disable={isLoading}
             loading={isLoading}>
-            Sign in
+            {isLoading ? <CircularIndeterminate /> : 'Sign in'}
           </Button>
         )}
 
@@ -108,7 +109,7 @@ export function AuthForm() {
             credentials={true}
             disable={isLoading}
             loading={isLoading}>
-            Sign Up
+            {isLoading ? <CircularIndeterminate /> : 'Sign Up'}
           </Button>
         )}
 
@@ -127,7 +128,8 @@ export function AuthForm() {
             disable={isLoading}
             loading={isLoading}
             oauth={true}>
-            <IoLogoGithub className='text-zinc-300' size={18} />
+            {isLoading && <CircularIndeterminate />}
+            {!isLoading && <IoLogoGithub className='text-zinc-300' size={18} />}
           </Button>
 
           <Button
@@ -135,7 +137,8 @@ export function AuthForm() {
             disable={isLoading}
             loading={isLoading}
             oauth={true}>
-            <FaGoogle className='text-zinc-300' size={18} />
+            {isLoading && <CircularIndeterminate />}
+            {!isLoading && <FaGoogle className='text-zinc-300' size={18} />}
           </Button>
         </div>
 
