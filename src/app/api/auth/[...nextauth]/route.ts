@@ -1,17 +1,23 @@
-import NextAuth from 'next-auth/next'
-import { PrismaAdapter } from '@next-auth/prisma-adapter'
-import { AuthOptions } from 'next-auth'
-import GoogleProvider from 'next-auth/providers/google'
-import Credentials from 'next-auth/providers/credentials'
-import { prisma } from '@/lib/prisma_db'
+import prisma from '@/lib/prisma_db'
+import { PrismaAdapter } from '@auth/prisma-adapter'
 import bcrypt from 'bcrypt'
+import NextAuth, { AuthOptions } from 'next-auth'
+import Credentials from 'next-auth/providers/credentials'
+import GithubProvider from 'next-auth/providers/github'
+import GoogleProvider from 'next-auth/providers/google'
+
+import { MutableRequestCookiesAdapter } from 'next/dist/server/web/spec-extension/adapters/request-cookies'
 
 export const authOptions: AuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as MutableRequestCookiesAdapter,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
+    }),
+    GithubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string
     }),
     Credentials({
       name: 'Credentials',
@@ -49,14 +55,12 @@ export const authOptions: AuthOptions = {
       }
     })
   ],
-  debug: process.env.NODE_ENV === 'development',
   session: {
-    strategy: 'database'
+    strategy: 'jwt'
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signIn: '/',
-    error: '/'
+    signIn: '/'
   }
 }
 

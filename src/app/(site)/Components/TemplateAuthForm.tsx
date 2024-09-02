@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { FaGoogle } from 'react-icons/fa'
 import { IoLogoGithub } from 'react-icons/io'
-import { AuthInput } from '../../components/Inputs/AuthInput'
+import { AuthInput } from '@/app/(site)/Components/Inputs/AuthInput'
 import { Button } from '../../components/buttons/Button'
 import { useSession } from 'next-auth/react'
 import { useDataForm } from '@/hooks/useForm'
@@ -17,11 +17,18 @@ export function AuthForm() {
   const router = useRouter()
   const { data: session } = useSession()
 
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState({
+    auth: false,
+    github: false,
+    google: false
+  })
+
   const [isLogin, setIsLogin] = useState<Variant>('LOGIN')
 
-  const { onSubmit, register, handleSubmit, socialAction } =
-    useDataForm(setIsLoading)
+  const { onSubmit, register, handleSubmit, socialAction } = useDataForm(
+    setIsLoading,
+    isLoading
+  )
 
   useEffect(() => {
     if (session?.user) {
@@ -69,7 +76,7 @@ export function AuthForm() {
             type='username'
             label='username'
             name='username'
-            disable={isLoading}
+            disable={isLoading.auth}
           />
         )}
 
@@ -80,7 +87,7 @@ export function AuthForm() {
           type='email'
           label='Email address'
           name='email'
-          disable={isLoading}
+          disable={isLoading.auth}
         />
 
         <AuthInput
@@ -90,16 +97,20 @@ export function AuthForm() {
           type='password'
           label='Password'
           name='password'
-          disable={isLoading}
+          disable={isLoading.auth}
         />
 
         {isLogin === 'LOGIN' && (
           <Button
             type='submit'
             credentials={true}
-            disable={isLoading}
-            loading={isLoading}>
-            {isLoading ? <CircularIndeterminate /> : 'Sign in'}
+            disable={isLoading.auth}
+            loading={isLoading.auth}>
+            {isLoading.auth ? (
+              <CircularIndeterminate color='white' />
+            ) : (
+              'Sign in'
+            )}
           </Button>
         )}
 
@@ -107,9 +118,9 @@ export function AuthForm() {
           <Button
             type='submit'
             credentials={true}
-            disable={isLoading}
-            loading={isLoading}>
-            {isLoading ? <CircularIndeterminate /> : 'Sign Up'}
+            disable={isLoading.auth}
+            loading={isLoading.auth}>
+            {isLoading.auth ? <CircularIndeterminate /> : 'Sign Up'}
           </Button>
         )}
 
@@ -125,20 +136,24 @@ export function AuthForm() {
               socialAction('github')
               router.push('/conversations')
             }}
-            disable={isLoading}
-            loading={isLoading}
+            disable={isLoading.github}
+            loading={isLoading.github}
             oauth={true}>
-            {isLoading && <CircularIndeterminate />}
-            {!isLoading && <IoLogoGithub className='text-zinc-300' size={18} />}
+            {isLoading.github && <CircularIndeterminate />}
+            {!isLoading.github && (
+              <IoLogoGithub className='text-zinc-300' size={18} />
+            )}
           </Button>
 
           <Button
             onClick={() => socialAction('google')}
-            disable={isLoading}
-            loading={isLoading}
+            disable={isLoading.google}
+            loading={isLoading.google}
             oauth={true}>
-            {isLoading && <CircularIndeterminate />}
-            {!isLoading && <FaGoogle className='text-zinc-300' size={18} />}
+            {isLoading.google && <CircularIndeterminate />}
+            {!isLoading.google && (
+              <FaGoogle className='text-zinc-300' size={18} />
+            )}
           </Button>
         </div>
 

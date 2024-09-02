@@ -14,8 +14,6 @@ export function MobileSidebar() {
       className={clsx(
         `
         lg:hidden
-        border-t
-        border-secondary
         w-full
         h-14
         flex

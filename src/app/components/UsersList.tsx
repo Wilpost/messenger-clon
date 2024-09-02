@@ -1,6 +1,6 @@
+import { getUserSession } from '@/actions/getSession'
 import { getUsers } from '@/actions/getUsers'
 import UserBox from './BoxItem'
-import { getUserSession } from '@/actions/getSession'
 
 export async function UsersList() {
   const session = await getUserSession()

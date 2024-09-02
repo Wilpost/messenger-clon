@@ -1,4 +1,5 @@
-import { prisma } from '@/lib/prisma_db'
+import prisma from '@/lib/prisma_db'
+import { getUserSession } from './getSession'
 
 export async function getConversation(id: string) {
   try {
@@ -22,15 +23,36 @@ export async function getConversation(id: string) {
 }
 
 export async function getUserConversations() {
+  const session = await getUserSession()
+
   try {
     const conversationsFound = await prisma.conversation.findMany({
+      orderBy: {
+        lastMessageAt: 'desc'
+      },
+      where: {
+        AND: {
+          users: {
+            some: {
+              email: session?.user?.email as string
+            }
+          }
+        }
+      },
       include: {
-        messages: true
+        users: true,
+        messages: {
+          include: {
+            sender: true,
+            seen: true
+          }
+        }
       }
     })
 
     return conversationsFound
   } catch (error: any) {
     console.log(error)
+    return []
   }
 }

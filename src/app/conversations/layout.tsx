@@ -1,14 +1,21 @@
-import { UserConversationsList } from '@/app/components/Conversation'
-import { Input } from '@/app/components/Inputs/SearchInput'
+import { UserConversationsList } from '@/app/conversations/Components/Conversation'
+import { Input } from '@/app/(site)/Components/Inputs/SearchInput'
 import { DesktopSidebar } from '@/app/components/sidebar/DesktopSidebar'
 import { MobileSidebar } from '@/app/components/sidebar/mobile/MobileSidebar'
 import { TbUsersPlus } from 'react-icons/tb'
+import { getUserConversations } from '@/actions/getConversations'
+import { getCurrentUser } from '@/actions/currentUser'
+import { getUserSession } from '@/actions/getSession'
 
 export default async function Layout({
   children
 }: {
   children: React.ReactNode
 }) {
+  const conversationList = await getUserConversations()
+  const session = await getUserSession()
+  const userFound = await getCurrentUser({ email: session?.user?.email })
+
   return (
     <section
       className={`
@@ -18,7 +25,7 @@ export default async function Layout({
           md:flex-row
           flex-col
           h-screen
-          md:gap-3
+          md:gap-1
         `}>
       <DesktopSidebar />
 
@@ -28,9 +35,10 @@ export default async function Layout({
           h-full
           flex
           p-2
-          gap-4
+          gap-3
         '>
-        <section className='shadow-2xl hidden md:flex bg-primary rounded-xl md:max-w-96 flex-col items-center justify-center w-full h-full gap-3'>
+        <section
+          className={`hidden shadow-2xl md:flex bg-primary rounded-xl md:max-w-96 flex-col items-center justify-center w-full h-full gap-0`}>
           <div className='w-full px-4 h-14 flex items-center justify-between'>
             <h1 className='text-2xl font-extrabold text-textSecondary'>
               Chats
@@ -46,7 +54,10 @@ export default async function Layout({
           </div>
 
           <div className='h-full w-full px-2 flex flex-col gap-1'>
-            <UserConversationsList />
+            <UserConversationsList
+              user={userFound}
+              conversations={conversationList}
+            />
           </div>
         </section>
 
@@ -58,7 +69,7 @@ export default async function Layout({
           flex
           flex-col
           bg-primary
-          rounded-md
+          rounded-xl
         '>
           {children}
         </div>

@@ -9,29 +9,31 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model User {
-    id String @id
+    id String @id @default(cuid())
     email String? @unique @db.VarChar(255)
     name String? @db.VarChar(255)
     hashedPassword String? @db.VarChar(255)
-    email_verified Boolean?
+    emailVerified Boolean?
     image String?
 
-    createdAt DateTime @default(now())
-
     conversations Conversation[] @relation("users")
-    seenMessages UserSeenMessage[]
+    seenMessages Message[] @relation("seen")
 
+    sessions Session[]
     accounts Account[]
-    messages Message[]
+    messages Message[] @relation("sender")
+
+    createdAt DateTime @default(now())
+    @@index([email])
 }
 
 model Account {
-  id Int @id @default(autoincrement())
+  id String @id @default(cuid()) @map("_id")
   provider String?
   type String?
   providerAccountId String?
@@ -42,34 +44,48 @@ model Account {
   refresh_token String? @db.Text
   type_Provider String?
   id_token String? @db.Text
-
   session_state String?
+  userId String
+  image String?
 
-  createdAt DateTime @default(now())
-  updateAt DateTime @updatedAt
-
-  userId String?
-  user User? @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
+model Session {
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Message {
-  id String @id
+  id String @id @default(cuid())
   body String @db.Text
   image String?
 
-  userId String
-  seen UserSeenMessage[]
+  seen User[] @relation("seen")
 
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt
 
   conversationId String
-  convertations Conversation @relation(fields: [conversationId], references: [id])
+  convertations Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   senderId String
-  sender User @relation(fields: [senderId], references: [id])
+  sender User @relation("sender", fields: [senderId], references: [id])
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
 }
 
 model Conversation {
@@ -78,17 +94,20 @@ model Conversation {
   isGroup Boolean? @default(false)
   image String? @db.Text
 
+  lastMessageAt DateTime @default(now())
+  createdAt DateTime @default(now())
+
   users User[] @relation("users")
   messages Message[]
 }
 
 // Model connect seen messages from users
 
-model UserSeenMessage {
-  id String @id
-  userId String
-  messageId String
+// model UserSeenMessage {
+//   id String @id
+//   userId String
+//   messageId String
 
-  user User @relation(fields: [userId], references: [id])
-  message Message @relation(fields: [messageId], references: [id])
-}
+//   user User @relation(fields: [userId], references: [id])
+//   message Message @relation(fields: [messageId], references: [id])
+// }

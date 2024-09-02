@@ -11,30 +11,32 @@ export default async function Layout({
     <section
       className={`
           w-full
-          p-2
           h-screen
           gap-2
+          p-2
           flex
         `}>
       <DesktopSidebar />
 
-      <aside
-        className='
-        flex
-        rounded-xl
-        w-full
-        bg-primary
-        flex-col
-        items-center
-        h-full
-        lg:max-w-[300px]
-        overflow-hidden
-        relative
-      '>
-        {children}
-      </aside>
+      <main className='p-1 py-2 pr-2 shadow-2xl hidden md:flex rounded-xl gap-3 items-center w-full h-full'>
+        <div
+          className='
+          shadow-2xl
+          w-full
+          max-w-96
+          h-full
+          flex
+          flex-col
+          bg-primary
+          rounded-xl
+        '>
+          {children}
+        </div>
 
-      <EmptyConversation />
+        <EmptyConversation />
+      </main>
+
+      <MobileSidebar />
     </section>
   )
 }

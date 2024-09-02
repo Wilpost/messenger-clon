@@ -1,18 +1,19 @@
+import Stack from '@mui/material/Stack'
 import CircularProgress from '@mui/material/CircularProgress'
-import Box from '@mui/material/Box'
 
-export default function CircularIndeterminate() {
+export default function CircularIndeterminate({ color }: { color?: string }) {
   return (
     <figure
       className='
         w-6
-        h-6
+        h-5
         grid
         place-content-center
+        scale-50
       '>
-      <Box color='#fff' sx={{ transform: 'scale(0.5)' }}>
-        <CircularProgress />
-      </Box>
+      <Stack sx={{ color }} spacing={2} direction='row'>
+        <CircularProgress color='inherit' />
+      </Stack>
     </figure>
   )
 }

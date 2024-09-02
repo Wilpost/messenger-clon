@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma_db'
+import prisma from '@/lib/prisma_db'
 
 export async function getCurrentUser({ email }: { email?: string | null }) {
   if (!email) {
@@ -9,6 +9,9 @@ export async function getCurrentUser({ email }: { email?: string | null }) {
     const userFound = await prisma.user.findUnique({
       where: {
         email: email
+      },
+      include: {
+        seenMessages: true
       }
     })
 

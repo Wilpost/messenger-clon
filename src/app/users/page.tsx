@@ -4,13 +4,13 @@ export default function UsersPage() {
   return (
     <div
       className='
-      w-full
-      overflow-x-auto 
-      h-full
-      md:flex 
-      flex-col 
-      gap-1
-    '>
+        w-full
+        overflow-x-auto 
+        h-full
+        md:flex 
+        flex-col 
+        gap-1
+      '>
       <div
         className='
           w-full

@@ -1,19 +1,28 @@
 import { getUserSession } from '@/actions/getSession'
-import { prisma } from '@/lib/prisma_db'
+import prisma from '@/lib/prisma_db'
+import { User } from '@prisma/client'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
   // Obtengo los datos del body y los datos de la sessión del usuario
-  const { name, isGroup, members, user } = await req.json()
+  const { name, isGroup, members, user, image } = await req.json()
   const session = await getUserSession()
 
   if (!user) {
     return NextResponse.json('Invalid data', { status: 400 })
   }
 
-  const userFound = await prisma.user.findUnique({
+  // Obtengo el usuario loggeado actualmente
+  const [user1, user2] = await prisma.user.findMany({
     where: {
-      email: session?.user?.email as string
+      OR: [
+        {
+          email: session?.user?.email
+        },
+        {
+          email: user.email
+        }
+      ]
     }
   })
 
@@ -24,6 +33,7 @@ export async function POST(req: Request) {
   // Genero un hash ID para la conversación nueva
   const conversationId = crypto.randomUUID()
 
+  // Sino es grupo creo un conversación uno a uno
   if (!isGroup) {
     const [currentConversationsFounds] = await prisma.conversation.findMany({
       where: {
@@ -32,7 +42,7 @@ export async function POST(req: Request) {
             users: {
               some: {
                 id: {
-                  equals: userFound?.id
+                  equals: user1?.id
                 }
               }
             }
@@ -41,7 +51,7 @@ export async function POST(req: Request) {
             users: {
               some: {
                 id: {
-                  equals: user.id
+                  equals: user2.id
                 }
               }
             }
@@ -55,10 +65,10 @@ export async function POST(req: Request) {
         data: {
           id: conversationId,
           name,
-          image: null,
+          image,
           isGroup,
           users: {
-            connect: [{ id: userFound?.id }, { id: user.id }]
+            connect: [{ id: user1?.id }, { id: user2.id }]
           }
         },
         include: {
@@ -79,17 +89,22 @@ export async function POST(req: Request) {
     })
   }
 
-  // if (isGroup) {
-  //   await prisma.conversation.create({
-  //     data: {
-  //       id: conversationId,
-  //       name,
-  //       isGroup,
-  //       image: null,
-  //       users: {
-  //         create: [...members.map((member: User) => member)]
-  //       }
-  //     }
-  //   })
-  // }
+  // Creo el chat grupal (#Grupo)
+  if (isGroup) {
+    await prisma.conversation.create({
+      data: {
+        id: conversationId,
+        name,
+        isGroup,
+        image: null,
+        users: {
+          connect: [
+            ...members.concat(user2).map((member: User) => ({
+              id: member.id
+            }))
+          ]
+        }
+      }
+    })
+  }
 }

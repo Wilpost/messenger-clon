@@ -1,22 +1,25 @@
+'use client'
+
 import { User } from '@prisma/client'
 import Image from 'next/image'
 
 export const Avatar = ({
   user,
-  src,
   medium = false,
-  isActive = false
+  xs = false,
+  isActive = false,
+  src
 }: {
   user?: User
-  src?: string | null
   isActive?: boolean
   medium?: boolean
+  xs?: boolean
+  src?: string | null
 }) => {
   return (
     <div
       className='
         relative
-        w-full
         flex
         items-center
         justify-center
@@ -29,15 +32,15 @@ export const Avatar = ({
         '>
         <Image
           className='object-cover rounded-full'
-          src={src || user?.image || '/image/placeholder.jpg'}
-          width={medium ? 40 : 50}
-          height={medium ? 40 : 50}
+          src={src || '/image/placeholder.jpg'}
+          width={medium && medium ? 40 : 50 || (xs && xs) ? 30 : 40}
+          height={medium && medium ? 40 : 50 || (xs && xs) ? 30 : 40}
           alt='Avatar o foto de perfil de el usuario'
         />
       </div>
 
       {isActive && (
-        <span className='w-[11px] h-[11px] bg-green-500 absolute rounded-full ring-2 ring-primary top-0 right-1' />
+        <span className='w-[11px] h-[11px] bg-green-500 absolute rounded-full ring-2 ring-primary bottom-0 right-0' />
       )}
     </div>
   )

@@ -1,3 +1,5 @@
+'use client'
+
 import { Avatar } from './Avatar'
 import { FaPhone } from 'react-icons/fa6'
 import { PiVideoCameraFill } from 'react-icons/pi'
@@ -29,30 +31,27 @@ const HeaderConversation: React.FC<ChatViewProps> = ({ name, image }) => {
         '>
       <ul
         className='
-            auto
-            flex
-            items-center
-            justify-start
-            gap-1
-            px-2
-            py-1
+          w-full
+          flex
+          items-center
+          gap-1
         '>
         <li
           className='
+            block
+            md:hidden
           hover:bg-secondary
             active:bg-opacity-65
             rounded-full
-            p-2
             cursor-pointer
           '>
           <button
+            className='rounded-full p-2'
             aria-label='Button de regreso a la pagina anterior'
             onClick={runBackPage}>
             <IoIosArrowBack
               size={24}
               className='
-              block
-              md:hidden
               text-contrastColor
             '
             />
@@ -64,11 +63,12 @@ const HeaderConversation: React.FC<ChatViewProps> = ({ name, image }) => {
             w-full
             flex
             items-center
+            justify-start
+            pl-2
             gap-2
-            p-2
           '>
-          <Avatar medium src={image} />
-          {name}
+          <Avatar src={image} medium />
+          <span className='w-full font-semibold'>{name}</span>
         </li>
       </ul>
 

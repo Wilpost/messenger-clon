@@ -28,7 +28,11 @@ const UserBox: React.FC<UserBoxProps> = ({
   return (
     <div
       onClick={async () => {
-        const id = await handleClick(email as string, name as string)
+        const id = await handleClick(
+          email as string,
+          name as string,
+          image as string
+        )
 
         router.push(`/conversations/${id}`)
       }}

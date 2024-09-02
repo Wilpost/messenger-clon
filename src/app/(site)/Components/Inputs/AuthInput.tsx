@@ -34,7 +34,7 @@ export function AuthInput({
           {...register(name)}
           className={clsx(
             `
-          w-full rounded-3xl p-2 pl-4 placeholder:text-zinc-400-400 placeholder:font-light bg-secondary outline-none text-normal text-textSecondary mt-1
+          w-full rounded-3xl p-2 pl-4 placeholder:text-zinc-500 placeholder:font-normal bg-secondary outline-none text-normal text-textSecondary mt-1
           `,
             disable && 'opacity-50 cursor-default select-none',
             error && 'border-red-500 focus:outline-red-500'

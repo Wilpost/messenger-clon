@@ -1,11 +1,11 @@
 import { Avatar } from './Avatar'
 
 interface EmptyChatProps {
-  image?: string | null
   name?: string | null
+  image?: string | null
 }
 
-export const EmptyChat: React.FC<EmptyChatProps> = ({ image, name }) => {
+export const EmptyChat: React.FC<EmptyChatProps> = ({ name, image }) => {
   return (
     <div
       className='
@@ -24,7 +24,7 @@ export const EmptyChat: React.FC<EmptyChatProps> = ({ image, name }) => {
             text-lg
             text-textSecondary
           '>
-        <Avatar src={image} />
+        <Avatar src={image} medium />
         <span>{name}</span>
       </figure>
       <span

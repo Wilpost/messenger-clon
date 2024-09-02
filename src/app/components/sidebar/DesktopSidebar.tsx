@@ -1,11 +1,13 @@
 'use client'
 
+import { useSession } from 'next-auth/react'
 import { useRoutes } from '@/hooks/useRoutes'
 import { DesktopSidebarItem } from './DesktopSidebarItem'
 import { Avatar } from '../Avatar'
 
 export const DesktopSidebar = () => {
   const routes = useRoutes()
+  const session = useSession()
 
   return (
     <div
@@ -54,7 +56,7 @@ export const DesktopSidebar = () => {
         <ul
           role='list'
           className='relative w-full flex justify-center items-center'>
-          <Avatar isActive={true} />
+          <Avatar src={session.data?.user?.image} isActive={true} medium />
         </ul>
       </nav>
     </div>

@@ -1,5 +1,5 @@
 import { validUserData } from '@/schemas/user.schema'
-import { prisma } from '@/lib/prisma_db'
+import prisma from '@/lib/prisma_db'
 import bcrypt from 'bcrypt'
 import { NextResponse } from 'next/server'
 

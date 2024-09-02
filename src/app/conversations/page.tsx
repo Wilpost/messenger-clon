@@ -1,6 +1,6 @@
 import { EmptyConversation } from '@/app/components/NoSelectConversation'
 
-export default function ConversationsPage() {
+export default async function ConversationsPage() {
   return (
     <>
       <EmptyConversation />

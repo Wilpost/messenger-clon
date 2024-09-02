@@ -5,7 +5,7 @@ import { User } from '@prisma/client'
 import { useParams, useRouter } from 'next/navigation'
 import { useMemo } from 'react'
 
-export function useConversation() {
+export function useConversation(id?: string) {
   const params = useParams()
 
   const converstationId = useMemo(() => {
@@ -16,7 +16,10 @@ export function useConversation() {
     return params?.converstationId as string
   }, [params?.converstationId])
 
-  const isOpen = useMemo(() => !!converstationId, [converstationId])
+  const isOpen = useMemo(
+    () => converstationId === id ?? !!converstationId,
+    [converstationId]
+  )
 
   return useMemo(
     () => ({
